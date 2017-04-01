@@ -44,7 +44,7 @@ defmodule Metatags.Mixfile do
     [
       name: :metatags,
       description: description(),
-      files: ["lib", "priv", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["johan Tell"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/mintcore/metatags"}
