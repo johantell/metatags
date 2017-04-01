@@ -9,8 +9,15 @@ defmodule Metatags.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      description: description(),
+      package: package(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+      preferred_cli_env: [
+        "coveralls": :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ],
     ]
   end
 
@@ -28,8 +35,8 @@ defmodule Metatags.Mixfile do
 
   defp description do
     """
-    Metatags provides an easy to work with API to set both default and page specific
-    metatags on a page.
+    Metatags provides an easy to work with API to set default and
+    page specific metatags on a page.
     """
   end
 
