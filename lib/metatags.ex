@@ -28,12 +28,12 @@ defmodule Metatags do
     %{metadata: %{"title" => "Welcome!"}}
     ```
   """
-  @spec put(map, atom, string | map) :: struct
+  @spec put(map, atom, String.t | map) :: struct
   def put(conn, key, value) when is_atom(key) do
     put(conn, Atom.to_string(key), value)
   end
 
-  @spec put(map, string, string | map) :: struct
+  @spec put(map, String.t, String. | map) :: struct
   def put(conn, key, value) do
     metadata = conn.metadata
     |> Map.put(key, value)
@@ -62,7 +62,6 @@ defmodule Metatags do
   end
 
   defp print_tag(_, "title", value) when is_nil(value), do: Tag.content_tag :title, do: @sitename
-  #defp print_tag(_, _key, value) when is_nil(value), do: ''
   defp print_tag(metadata, key, value) when is_atom(key) do
     print_tag(metadata, Atom.to_string(key), value)
   end

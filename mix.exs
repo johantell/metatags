@@ -29,6 +29,9 @@ defmodule Metatags.Mixfile do
     [
       {:phoenix_html, "~> 2.9.3"},
       {:ex_doc, "~> 0.15.0"},
+
+      {:dogma, "~> 0.1", only: :dev},
+
       {:excoveralls, "~> 0.6", only: :test}
     ]
   end
