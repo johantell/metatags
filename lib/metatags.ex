@@ -9,8 +9,10 @@ defmodule Metatags do
   @default_meta_tags Application.get_env(:metatags, :default_tags, %{})
   @separator Application.get_env(:metatags, :separator, "-")
 
+  @doc false
   def init(_opts), do: nil
 
+  @doc false
   def call(conn, _opts) do
     conn
     |> Map.put(:metadata, @default_meta_tags)
@@ -21,8 +23,10 @@ defmodule Metatags do
 
     example:
 
+    ```
     iex> %{metadata: %{}} |> Metatags.put("title", "Welcome!")
     %{metadata: %{"title" => "Welcome!"}}
+    ```
   """
   @spec put(map, atom, string | map) :: struct
   def put(conn, key, value) when is_atom(key) do
@@ -48,7 +52,7 @@ defmodule Metatags do
       [print_tag(metadata, key, value) | acc]
     end)
   end
-  def print_tags(_), do: nil
+  def print_tags(_map), do: nil
 
   defp print_tag(metadata, prefix, %{} = map) do
     map

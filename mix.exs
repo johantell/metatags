@@ -3,7 +3,7 @@ defmodule Metatags.Mixfile do
 
   def project do
     [
-      app: :metatags,
+      app: :plug_metatags,
       version: "0.1.0",
       elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,
@@ -21,7 +21,25 @@ defmodule Metatags.Mixfile do
   defp deps do
     [
       {:phoenix_html, "~> 2.9.3"},
+      {:ex_doc, "~> 0.15.0"},
       {:excoveralls, "~> 0.6", only: :test}
+    ]
+  end
+
+  defp description do
+    """
+    Metatags provides an easy to work with API to set both default and page specific
+    metatags on a page.
+    """
+  end
+
+  defp package do
+    [
+      name: :plug_metatags,
+      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["johan Tell"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/mintcore/plug_metatags"}
     ]
   end
 end
