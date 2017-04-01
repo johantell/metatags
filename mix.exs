@@ -36,9 +36,10 @@ defmodule Metatags.Mixfile do
   defp package do
     [
       name: :metatags,
-      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      description: description(),
+      files: ["lib", "priv", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["johan Tell"],
-      licenses: ["Apache 2.0"],
+      licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/mintcore/metatags"}
     ]
   end
