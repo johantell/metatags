@@ -3,7 +3,7 @@ defmodule Metatags.Mixfile do
 
   def project do
     [
-      app: :plug_metatags,
+      app: :metatags,
       version: "0.1.0",
       elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,
@@ -35,11 +35,11 @@ defmodule Metatags.Mixfile do
 
   defp package do
     [
-      name: :plug_metatags,
+      name: :metatags,
       files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
       maintainers: ["johan Tell"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://github.com/mintcore/plug_metatags"}
+      links: %{"GitHub" => "https://github.com/mintcore/metatags"}
     ]
   end
 end
