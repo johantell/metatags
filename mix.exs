@@ -28,8 +28,8 @@ defmodule Metatags.Mixfile do
   defp deps do
     [
       {:phoenix_html, "~> 2.9"},
-      {:ex_doc, "~> 0.16"},
 
+      {:ex_doc, "~> 0.16", only: :dev},
       {:dogma, "~> 0.1", only: :dev},
 
       {:excoveralls, "~> 0.7", only: :test}
