@@ -28,15 +28,16 @@ defmodule Metatags do
     %{metadata: %{"title" => "Welcome!"}}
     ```
   """
-  @spec put(map, atom, String.t | map) :: struct
+  @spec put(map, atom, String.t() | map) :: struct
   def put(conn, key, value) when is_atom(key) do
     put(conn, Atom.to_string(key), value)
   end
 
-  @spec put(map, String.t, String. | map) :: struct
+  @spec put(map, String.t(), String.|(map)) :: struct
   def put(conn, key, value) do
-    metadata = conn.metadata
-    |> Map.put(key, value)
+    metadata =
+      conn.metadata
+      |> Map.put(key, value)
 
     conn
     |> Map.put(:metadata, metadata)
@@ -45,13 +46,14 @@ defmodule Metatags do
   @doc """
     turns metadata information into HTML tags
   """
-  @spec print_tags(map) :: Phoenix.Html.Safe.t
+  @spec print_tags(map) :: Phoenix.Html.Safe.t()
   def print_tags(%{metadata: metadata}) do
     metadata
     |> Enum.reduce([], fn {key, value}, acc ->
       [print_tag(metadata, key, value) | acc]
     end)
   end
+
   def print_tags(_map), do: nil
 
   defp print_tag(metadata, prefix, %{} = map) do
@@ -61,14 +63,17 @@ defmodule Metatags do
     end)
   end
 
-  defp print_tag(_, "title", value) when is_nil(value), do: Tag.content_tag :title, do: @sitename
+  defp print_tag(_, "title", value) when is_nil(value),
+    do: Tag.content_tag(:title, do: @sitename)
+
   defp print_tag(metadata, key, value) when is_atom(key) do
     print_tag(metadata, Atom.to_string(key), value)
   end
+
   defp print_tag(_, "title", value) do
     suffix = if @sitename, do: [@separator, @sitename], else: []
 
-    Tag.content_tag :title, do: Enum.join([value] ++ suffix, " ")
+    Tag.content_tag(:title, do: Enum.join([value] ++ suffix, " "))
   end
 
   defp print_tag(metadata, "keywords" = key, value) when is_list(value) do
@@ -76,10 +81,16 @@ defmodule Metatags do
   end
 
   defp print_tag(metadata, "og:title" = key, value) do
-    Tag.tag :meta, name: key, content: value || metadata["title"]
+    Tag.tag(:meta, name: key, content: value || metadata["title"])
   end
+
   defp print_tag(metadata, "og:url" = key, value) do
-    Tag.tag :meta, name: key, content: value || Map.get(metadata, "canonical", nil)
+    Tag.tag(
+      :meta,
+      name: key,
+      content: value || Map.get(metadata, "canonical", nil)
+    )
   end
-  defp print_tag(_, key, value), do: Tag.tag :meta, name: key, content: value
+
+  defp print_tag(_, key, value), do: Tag.tag(:meta, name: key, content: value)
 end
