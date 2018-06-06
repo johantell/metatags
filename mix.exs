@@ -6,8 +6,6 @@ defmodule Metatags.Mixfile do
       app: :metatags,
       version: "0.1.2",
       elixir: "~> 1.4",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
       deps: deps(),
       description: description(),
       package: package(),
@@ -19,10 +17,6 @@ defmodule Metatags.Mixfile do
         "coveralls.html": :test
       ],
     ]
-  end
-
-  def application do
-    [extra_applications: [:logger]]
   end
 
   defp deps do
