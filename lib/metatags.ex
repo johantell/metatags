@@ -3,6 +3,7 @@ defmodule Metatags do
     Metatags is used to provide an easy api to print out context-specific
     metatags.
   """
+
   alias Phoenix.HTML.Tag
 
   @sitename Application.get_env(:metatags, :sitename)
@@ -28,12 +29,12 @@ defmodule Metatags do
     %{metadata: %{"title" => "Welcome!"}}
     ```
   """
-  @spec put(map, atom, String.t | map) :: struct
+  @spec put(map, atom, String.t() | map) :: struct
   def put(conn, key, value) when is_atom(key) do
     put(conn, Atom.to_string(key), value)
   end
 
-  @spec put(map, String.t, String.t | map) :: struct
+  @spec put(map, String.t(), String.t() | map) :: struct
   def put(conn, key, value) do
     metadata =
       conn.metadata
@@ -46,7 +47,7 @@ defmodule Metatags do
   @doc """
     turns metadata information into HTML tags
   """
-  @spec print_tags(map) :: Phoenix.HTML.Safe.t
+  @spec print_tags(map) :: Phoenix.HTML.Safe.t()
   def print_tags(%{metadata: metadata}) do
     metadata
     |> Enum.reduce([], fn {key, value}, acc ->
@@ -88,7 +89,7 @@ defmodule Metatags do
     Tag.tag(
       :meta,
       name: key,
-      content: value || Map.get(metadata, "canonical", nil)
+      content: value || metadata["canonical"]
     )
   end
 
