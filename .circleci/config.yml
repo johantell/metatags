@@ -1,0 +1,110 @@
+defaults: &defaults
+  working_directory: ~/metatags
+  docker:
+    - image: elixir:1.6.5
+      environment:
+        MIX_ENV: test
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v2-deps-cache-{{ checksum "mix.lock" }}
+            - v2-deps-cache
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix deps.get
+      - run: mix deps.compile
+      - run: mix compile
+      - save_cache:
+          key: v2-deps-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - deps
+            - ~/.mix
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - metatags
+            - .mix
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run tests
+          command: mix test
+
+  credo:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run credo
+          command: mix credo
+
+  check_formatted:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Verify formatted
+          command: mix format --check-formatted
+
+  dialyzer:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys:
+            - v1-plt-cache-{{ checksum "mix.lock" }}
+            - v1-plt-cache
+      - run: mix dialyzer --plt
+      - save_cache:
+          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - ~/.mix
+      - run:
+          name: Run dialyzer
+          command: mix dialyzer
+
+  coverage:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Analyze coverage
+          command: mix coveralls.circle
+
+workflows:
+  version: 2
+  continuous_integration:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
+      - credo:
+          requires:
+            - build
+      - dialyzer:
+          requires:
+            - build
+      - coverage:
+          requires:
+            - build

@@ -21,6 +21,8 @@ defmodule Metatags.Mixfile do
       ],
       preferred_cli_env: [
         espec: :test,
+        credo: :test,
+        dialyzer: :test,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
@@ -34,9 +36,9 @@ defmodule Metatags.Mixfile do
       {:phoenix_html, "~> 2.9"},
       {:ex_doc, "~> 0.16", only: :dev},
       {:espec, "1.5.1", only: [:dev, :test], runtime: false},
-      {:credo, "~> 0.9.0", only: :dev, runtime: false},
+      {:credo, "~> 0.9.0", only: :test, runtime: false},
       {:excoveralls, ">= 0.0.0", only: :test, runtime: false},
-      {:dialyxir, "~> 0.5", only: :dev, runtime: false}
+      {:dialyxir, "~> 0.5", only: :test, runtime: false}
     ]
   end
 
