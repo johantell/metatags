@@ -1,5 +1,8 @@
 # Metatags
 
+[![CircleCI](https://circleci.com/gh/johantell/metatags.svg?style=svg)](https://circleci.com/gh/johantell/metatags)
+[![Coverage Status](https://coveralls.io/repos/github/johantell/metatags/badge.svg)](https://coveralls.io/github/johantell/metatags)
+
 Metatags provides an easy and flexible way to set both default and page specifig metatags that are used for SEO, facebook, twitter etc.
 
 ## Installation
