@@ -4,7 +4,7 @@ defmodule MetatagsSpec do
 
   describe "init" do
     it "returns nil" do
-      expect(Metatags.init([])).to eq(nil)
+      expect(Metatags.init([])).to(eq(nil))
     end
   end
 
@@ -14,7 +14,7 @@ defmodule MetatagsSpec do
         conn(:get, "/")
         |> Metatags.call([])
 
-      expect(conn.private.metatags).to eq(%{})
+      expect(conn.private.metatags).to(eq(%{"title" => nil}))
     end
   end
 
@@ -24,7 +24,7 @@ defmodule MetatagsSpec do
         build_conn()
         |> Metatags.put("title", "my title")
 
-      expect(conn.private.metatags).to eq(%{"title" => "my title"})
+      expect(conn.private.metatags).to(eq(%{"title" => "my title"}))
     end
 
     it "allows atoms as keys" do
@@ -32,18 +32,18 @@ defmodule MetatagsSpec do
         build_conn()
         |> Metatags.put(:title, "my title")
 
-      expect(conn.private.metatags).to eq(%{"title" => "my title"})
+      expect(conn.private.metatags).to(eq(%{"title" => "my title"}))
     end
   end
 
   describe "print_tags" do
     it "calls Metatags.HTML.from_conn" do
       conn = build_conn()
-      allow(Metatags.HTML).to accept(:from_conn)
+      allow(Metatags.HTML).to(accept(:from_conn))
 
       Metatags.print_tags(conn)
 
-      expect(Metatags.HTML).to accepted(:from_conn)
+      expect(Metatags.HTML).to(accepted(:from_conn))
     end
   end
 

@@ -7,15 +7,13 @@ defmodule Metatags do
   alias Metatags.HTML
   alias Plug.Conn
 
-  @default_meta_tags Application.get_env(:metatags, :default_tags, %{})
-
   @doc false
   def init(_opts), do: nil
 
   @doc false
   def call(conn, _opts) do
     conn
-    |> Conn.put_private(:metatags, @default_meta_tags)
+    |> Conn.put_private(:metatags, default_metatags())
   end
 
   @doc """
@@ -50,5 +48,12 @@ defmodule Metatags do
   @spec print_tags(Conn.t()) :: Phoenix.HTML.Safe.t()
   def print_tags(%Conn{} = conn) do
     HTML.from_conn(conn)
+  end
+
+  defp default_metatags do
+    config = Application.get_env(:metatags, :default_tags, %{})
+
+    %{"title" => nil}
+    |> Map.merge(config)
   end
 end

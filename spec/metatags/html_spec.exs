@@ -38,7 +38,7 @@ defmodule Metatags.HTMLSpec do
         |> Metatags.put(:keywords, ["metatags", "awesome"])
 
       expect(safe_to_string(HTML.from_conn(conn))).to(
-        eq(~s(<meta content="metatags, awesome" name="keywords">))
+        have(~s(<meta content="metatags, awesome" name="keywords">))
       )
     end
 
@@ -48,7 +48,7 @@ defmodule Metatags.HTMLSpec do
         |> Metatags.put(:prefix, %{key: "value"})
 
       expect(safe_to_string(HTML.from_conn(conn))).to(
-        eq(~s(<meta content="value" name="prefix:key">))
+        have(~s(<meta content="value" name="prefix:key">))
       )
     end
 
@@ -58,7 +58,47 @@ defmodule Metatags.HTMLSpec do
         |> Metatags.put(:anything, "value")
 
       expect(safe_to_string(HTML.from_conn(conn))).to(
-        eq(~s(<meta content="value" name="anything">))
+        have(~s(<meta content="value" name="anything">))
+      )
+    end
+
+    it "adds the sitename as suffix to title when configured", async: false do
+      allow(Application).to(
+        accept(
+          :get_env,
+          fn
+            :metatags, :sitename -> "page"
+            a, b -> passthrough([a, b])
+          end,
+          [:non_strict, :passthrough]
+        )
+      )
+
+      conn =
+        build_conn()
+        |> Metatags.put(:title, "Welcome")
+
+      expect(safe_to_string(HTML.from_conn(conn))).to(
+        have("<title>Welcome - page</title>")
+      )
+    end
+
+    it "prints the sitename when no title is set", async: false do
+      allow(Application).to(
+        accept(
+          :get_env,
+          fn
+            :metatags, :sitename -> "page"
+            a, b -> passthrough([a, b])
+          end,
+          [:non_strict, :passthrough]
+        )
+      )
+
+      conn = build_conn()
+
+      expect(safe_to_string(HTML.from_conn(conn))).to(
+        have("<title>page</title>")
       )
     end
   end

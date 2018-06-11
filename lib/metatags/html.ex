@@ -6,9 +6,6 @@ defmodule Metatags.HTML do
   alias Phoenix.HTML
   alias Phoenix.HTML.Tag
 
-  @sitename Application.get_env(:metatags, :sitename)
-  @separator Application.get_env(:metatags, :separator, "-")
-
   @doc """
   Turns a %Plug.Plug.Conn{} with metatags into HTML
   """
@@ -36,10 +33,10 @@ defmodule Metatags.HTML do
   end
 
   defp print_tag(_, "title", value) when is_nil(value),
-    do: Tag.content_tag(:title, do: @sitename)
+    do: Tag.content_tag(:title, do: sitename())
 
   defp print_tag(_, "title", value) do
-    suffix = if @sitename, do: [@separator, @sitename], else: []
+    suffix = if sitename(), do: [separator(), sitename()], else: []
 
     Tag.content_tag(:title, do: Enum.join([value] ++ suffix, " "))
   end
@@ -51,4 +48,7 @@ defmodule Metatags.HTML do
   defp print_tag(_, key, value) do
     Tag.tag(:meta, name: key, content: value)
   end
+
+  defp sitename, do: Application.get_env(:metatags, :sitename)
+  defp separator, do: Application.get_env(:metatags, :separator, "-")
 end
