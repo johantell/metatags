@@ -11,7 +11,7 @@ add `metatags` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:metatags, "~> 0.1.0"}]
+  [{:metatags, "~> 0.2.0"}]
 end
 ```
 
@@ -40,6 +40,7 @@ In your controller put page specific data
 ```elixir
 conn
 |> Metatags.put("title", "About My_app")
+|> Metatags.put("og", %{"image" => "http://myimage.jpg"})
 ```
 
 And print them out inside your head tag
