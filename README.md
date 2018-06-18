@@ -48,7 +48,7 @@ And print them out inside your head tag
 <!DOCTYPE>
 <html>
 <head>
-    <%= Metadata.print_tags(@conn) %>
+    <%= Metatags.print_tags(@conn) %>
 </head>
 <body>
 </body>
