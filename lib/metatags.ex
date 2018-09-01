@@ -32,7 +32,7 @@ defmodule Metatags do
     put(conn, Atom.to_string(key), value)
   end
 
-  @spec put(Conn.t(), String.t(), String.t() | map) :: struct
+  @spec put(Conn.t(), String.t(), String.t() | map | nil) :: struct
   def put(%Conn{private: %{metatags: metatags}} = conn, key, value) do
     metatags =
       metatags
