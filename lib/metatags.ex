@@ -7,6 +7,8 @@ defmodule Metatags do
   alias Metatags.HTML
   alias Plug.Conn
 
+  @type metatag_value :: String.t() | [String.t()] | map() | nil
+
   @doc false
   def init(_opts), do: nil
 
@@ -27,12 +29,12 @@ defmodule Metatags do
     %Conn{private: %{metadata: %{"title" => "Welcome!"}}}
     ```
   """
-  @spec put(Conn.t(), atom, String.t() | map) :: struct
+  @spec put(Conn.t(), atom, metatag_value()) :: struct
   def put(conn, key, value) when is_atom(key) do
     put(conn, Atom.to_string(key), value)
   end
 
-  @spec put(Conn.t(), String.t(), String.t() | map | nil) :: struct
+  @spec put(Conn.t(), String.t(), metatag_value()) :: struct
   def put(%Conn{private: %{metatags: metatags}} = conn, key, value) do
     metatags =
       metatags
