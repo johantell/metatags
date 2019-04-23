@@ -2,12 +2,16 @@
 
 [![CircleCI](https://circleci.com/gh/johantell/metatags.svg?style=svg)](https://circleci.com/gh/johantell/metatags)
 [![Coverage Status](https://coveralls.io/repos/github/johantell/metatags/badge.svg?branch=master)](https://coveralls.io/github/johantell/metatags?branch=master)
+[![Hex version](https://img.shields.io/hexpm/v/metatags.svg)](https://hex.pm/metatags)
 
-Metatags provides an easy and flexible way to set both default and page specifig metatags that are used for SEO, facebook, twitter etc.
+Metatags provides an easy and flexible way to set both default and page specific metatags that are
+used for SEO, Facebook, Twitter etc.
+
+Documentation is available at [https://hexdocs.pm/metatags](https://hexdocs.pm/metatags).
 
 ## Installation
 
-add `metatags` to your list of dependencies in `mix.exs`:
+Add `metatags` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -27,7 +31,6 @@ config :metatags,
         "keywords" => ["My_app", "great", "elixir"]
     }
 ```
-
 
 ## Usage
 
@@ -54,7 +57,3 @@ And print them out inside your head tag
 </body>
 </html>
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/metatags](https://hexdocs.pm/metatags).
