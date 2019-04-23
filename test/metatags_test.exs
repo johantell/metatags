@@ -10,9 +10,7 @@ defmodule MetatagsTest do
 
   describe "call" do
     test "sets the default metatags" do
-      conn =
-        conn(:get, "/")
-        |> Metatags.call([])
+      conn = Metatags.call(conn(:get, "/"), [])
 
       assert %{"title" => nil} == conn.private.metatags
     end
@@ -20,17 +18,13 @@ defmodule MetatagsTest do
 
   describe "put" do
     test "puts the passed metatag data into the %Plug.Conn{}" do
-      conn =
-        build_conn()
-        |> Metatags.put("title", "my title")
+      conn = Metatags.put(build_conn(), "title", "my title")
 
       assert %{"title" => "my title"} == conn.private.metatags
     end
 
     test "allows atoms as keys" do
-      conn =
-        build_conn()
-        |> Metatags.put(:title, "my title")
+      conn = Metatags.put(build_conn(), :title, "my title")
 
       assert %{"title" => "my title"} == conn.private.metatags
     end
@@ -40,12 +34,14 @@ defmodule MetatagsTest do
     test "returns the defined tags" do
       conn = Metatags.put(build_conn(), "title", "hello world")
 
-      assert "<title>hello world</title>" = safe_to_string(Metatags.print_tags(conn))
+      assert "<title>hello world</title>" =
+               safe_to_string(Metatags.print_tags(conn))
     end
   end
 
   defp build_conn do
-    conn(:get, "/")
+    :get
+    |> conn("/")
     |> Metatags.call([])
   end
 

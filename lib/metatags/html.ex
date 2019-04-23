@@ -6,24 +6,28 @@ defmodule Metatags.HTML do
   alias Phoenix.HTML
   alias Phoenix.HTML.Tag
 
-  @type base_option :: {:sitename, String.t()} | {:separator, String.t()} | {:default_tags, map()}
+  @type base_option ::
+          {:sitename, String.t()}
+          | {:separator, String.t()}
+          | {:default_tags, map()}
   @type base_options :: [base_option()]
 
   @doc """
   Turns a %Plug.Conn{} with metatags into HTML
   """
   @spec from_conn(Plug.Conn.t(), base_options()) :: HTML.Safe.t()
-  def from_conn(%Plug.Conn{private: %{metatags: metatags}}, base_options) when is_list(base_options) do
+  def from_conn(%Plug.Conn{private: %{metatags: metatags}}, base_options)
+      when is_list(base_options) do
     Enum.reduce(metatags, [], fn {key, value}, acc ->
       [print_tag(metatags, key, value, base_options) | acc]
     end)
   end
 
-  def from_conn(%Plug.Conn{private: %{metatags: metatags}} = conn) do
+  def from_conn(%Plug.Conn{private: %{metatags: _}} = conn) do
     default_options = [
       sitename: Application.get_env(:metatags, :sitename),
       separator: Application.get_env(:metatags, :separator),
-      default_tags: Application.get_env(:metatags, :default_tags),
+      default_tags: Application.get_env(:metatags, :default_tags)
     ]
 
     from_conn(conn, default_options)
@@ -31,7 +35,8 @@ defmodule Metatags.HTML do
 
   def from_conn(_) do
     raise ArgumentError,
-      message: "No metatags was present in the passed struct. Did you forget to add it?"
+      message:
+        "No metatags was present in the passed struct. Did you forget to add it?"
   end
 
   defp print_tag(metatags, prefix, %{} = map, base_options) do
@@ -54,7 +59,8 @@ defmodule Metatags.HTML do
     Tag.content_tag(:title, do: Enum.join([value] ++ suffix, " "))
   end
 
-  defp print_tag(metatags, "keywords" = key, value, base_options) when is_list(value) do
+  defp print_tag(metatags, "keywords" = key, value, base_options)
+       when is_list(value) do
     print_tag(metatags, key, Enum.join(value, ", "), base_options)
   end
 

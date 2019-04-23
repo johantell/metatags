@@ -15,7 +15,7 @@ defmodule Metatags.Mixfile do
       description: @description,
       package: package(),
       test_coverage: [
-        tool: ExCoveralls,
+        tool: ExCoveralls
       ],
       preferred_cli_env: [
         credo: :test,
