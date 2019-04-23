@@ -14,13 +14,10 @@ defmodule Metatags.Mixfile do
       deps: deps(),
       description: @description,
       package: package(),
-      aliases: aliases(),
       test_coverage: [
-        tool: ExCoveralls,
-        test_task: :espec
+        tool: ExCoveralls
       ],
       preferred_cli_env: [
-        espec: :test,
         credo: :test,
         dialyzer: :test,
         coveralls: :test,
@@ -35,7 +32,6 @@ defmodule Metatags.Mixfile do
     [
       {:phoenix_html, "~> 2.9"},
       {:ex_doc, "~> 0.16", only: :dev},
-      {:espec, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:credo, ">= 0.0.0", only: :test, runtime: false},
       {:excoveralls, ">= 0.0.0", only: :test, runtime: false},
       {:dialyxir, "~> 0.5", only: :test, runtime: false}
@@ -50,12 +46,6 @@ defmodule Metatags.Mixfile do
       maintainers: ["johan Tell"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/johantell/metatags"}
-    ]
-  end
-
-  defp aliases do
-    [
-      test: ["espec"]
     ]
   end
 end
