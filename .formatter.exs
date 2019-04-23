@@ -6,7 +6,7 @@ locals_without_parens = []
     ".formatter.exs",
     "mix.exs"
   ],
-  import_deps: [:espec, :plug],
+  import_deps: [:plug],
   line_length: 80,
   locals_without_parens: locals_without_parens,
   export: [locals_without_parens: locals_without_parens]
