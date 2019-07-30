@@ -9,13 +9,21 @@ defmodule Metatags do
 
   @type metatag_value :: String.t() | [String.t()] | map() | nil
 
-  @doc false
-  def init(_opts), do: nil
+  @default_metatags %{"title" => nil}
 
   @doc false
-  def call(conn, _opts) do
+  def init(options) do
+    options
+    |> Keyword.get(:defaults, [])
+    |> Enum.reduce(@default_metatags, fn {key, value}, default_tags ->
+      Map.put(default_tags, to_string(key), value)
+    end)
+  end
+
+  @doc false
+  def call(conn, defaults) do
     conn
-    |> Conn.put_private(:metatags, default_metatags())
+    |> Conn.put_private(:metatags, defaults)
   end
 
   @doc """
@@ -50,12 +58,5 @@ defmodule Metatags do
   @spec print_tags(Conn.t()) :: Phoenix.HTML.Safe.t()
   def print_tags(%Conn{} = conn) do
     HTML.from_conn(conn)
-  end
-
-  defp default_metatags do
-    config = Application.get_env(:metatags, :default_tags, %{})
-
-    %{"title" => nil}
-    |> Map.merge(config)
   end
 end

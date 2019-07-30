@@ -62,10 +62,12 @@ defmodule Metatags.HTMLTest do
     end
   end
 
-  defp build_conn do
+  defp build_conn(default_metatags \\ []) do
+    defaults = Metatags.init(default_metatags)
+
     :get
     |> conn("/")
-    |> Metatags.call([])
+    |> Metatags.call(defaults)
   end
 
   defp safe_to_string(safe_string) do
