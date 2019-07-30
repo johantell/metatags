@@ -3,16 +3,26 @@ defmodule MetatagsTest do
   use Plug.Test
 
   describe "init" do
-    test "returns nil" do
-      assert nil == Metatags.init([])
+    test "returns an empty keyword list" do
+      assert %{"title" => nil} == Metatags.init([])
+    end
+
+    test "returns the passed defaults as a map" do
+      assert %{"title" => "title"} == Metatags.init(defaults: [title: "title"])
     end
   end
 
   describe "call" do
-    test "sets the default metatags" do
-      conn = Metatags.call(conn(:get, "/"), [])
+    test "sets the passed defaults" do
+      conn = Metatags.call(conn(:get, "/"), %{"title" => nil})
 
       assert %{"title" => nil} == conn.private.metatags
+    end
+
+    test "uses the passed defaults when present" do
+      conn = Metatags.call(conn(:get, "/"), %{"title" => "title"})
+
+      assert %{"title" => "title"} == conn.private.metatags
     end
   end
 
@@ -39,10 +49,12 @@ defmodule MetatagsTest do
     end
   end
 
-  defp build_conn do
+  defp build_conn(default_metatags \\ []) do
+    defaults = Metatags.init(default_metatags)
+
     :get
     |> conn("/")
-    |> Metatags.call([])
+    |> Metatags.call(defaults)
   end
 
   defp safe_to_string(safe_string) do

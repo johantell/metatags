@@ -19,25 +19,25 @@ def deps do
 end
 ```
 
-Configure the defaults in confix.ex
+Add the plug to your router and configure the defaults
+(You can use `Application.get_env/3` if you'd like to extract it into the
+configuration file).
 
 ```elixir
-config :metatags,
-    sitename: "My_app",
-    separator: "-",
-    default_tags: %{
-        "title" => "Welcome!",
-        "description" => "My_app is a great app",
-        "keywords" => ["My_app", "great", "elixir"]
-    }
+defmodule MyRouter do
+  use Plug.Conn
+
+  plug Metatags,
+     sitename: "My_app",
+     separator: "-",
+     default_tags: %{
+       "title" => "Welcome!",
+       "description" => "My_app is a great app",
+       "keywords" => ["My_app", "great", "elixir"]
+     }
 ```
 
 ## Usage
-
-Add metatags as a plug. either directly in a scope or into a Phoenix pipeline
-```elixir
-plug Metatags
-```
 
 In your controller put page specific data
 ```elixir
