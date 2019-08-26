@@ -1,6 +1,6 @@
 defmodule Metatags do
   @moduledoc """
-    Metatags is used to provide an easy api to print out context-specific
+    Metatags is used to provide an easy API to print out context-specific
     metatags.
   """
 
@@ -8,23 +8,6 @@ defmodule Metatags do
   alias Plug.Conn
 
   @type metatag_value :: String.t() | [String.t()] | map() | nil
-
-  @default_metatags %{"title" => nil}
-
-  @doc false
-  def init(options) do
-    options
-    |> Keyword.get(:defaults, [])
-    |> Enum.reduce(@default_metatags, fn {key, value}, default_tags ->
-      Map.put(default_tags, to_string(key), value)
-    end)
-  end
-
-  @doc false
-  def call(conn, defaults) do
-    conn
-    |> Conn.put_private(:metatags, defaults)
-  end
 
   @doc """
     Puts a key and a value in the on a %Conn{} struct
@@ -44,12 +27,12 @@ defmodule Metatags do
 
   @spec put(Conn.t(), String.t(), metatag_value()) :: struct
   def put(%Conn{private: %{metatags: metatags}} = conn, key, value) do
-    metatags =
-      metatags
-      |> Map.put(key, value)
+    {_, metatags} =
+      Map.get_and_update(metatags, :metatags, fn metadata ->
+        {metadata, Map.put(metadata, key, value)}
+      end)
 
-    conn
-    |> Conn.put_private(:metatags, metatags)
+    Conn.put_private(conn, :metatags, metatags)
   end
 
   @doc """
