@@ -5,7 +5,7 @@ defmodule Metatags.HTMLTest do
   alias Metatags.HTML
   alias Phoenix.HTML.Safe
 
-  describe "from_conn" do
+  describe "from_conn/1" do
     test "returns the metatags as html" do
       conn = Metatags.put(build_conn(), "title", "my title")
 
@@ -47,27 +47,27 @@ defmodule Metatags.HTMLTest do
 
     test "adds the sitename as suffix to title when configured" do
       default_options = [sitename: "page"]
-      conn = Metatags.put(build_conn(), :title, "Welcome")
+      conn = Metatags.put(build_conn(default_options), :title, "Welcome")
 
-      assert safe_to_string(HTML.from_conn(conn, default_options)) =~
+      assert safe_to_string(HTML.from_conn(conn)) =~
                "<title>Welcome - page</title>"
     end
 
     test "prints the sitename when no title is set" do
-      conn = build_conn()
       default_options = [sitename: "page"]
+      conn = build_conn(default_options)
 
-      assert safe_to_string(HTML.from_conn(conn, default_options)) =~
+      assert safe_to_string(HTML.from_conn(conn)) =~
                "<title>page</title>"
     end
   end
 
   defp build_conn(default_metatags \\ []) do
-    defaults = Metatags.init(default_metatags)
+    defaults = Metatags.Plug.init(default_metatags)
 
     :get
     |> conn("/")
-    |> Metatags.call(defaults)
+    |> Metatags.Plug.call(defaults)
   end
 
   defp safe_to_string(safe_string) do

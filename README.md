@@ -27,7 +27,7 @@ configuration file).
 defmodule MyRouter do
   use Plug.Conn
 
-  plug Metatags,
+  plug Metatags.Plug,
      sitename: "My_app",
      separator: "-",
      default_tags: %{
