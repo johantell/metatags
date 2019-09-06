@@ -7,7 +7,7 @@ defmodule Metatags.HTML do
   alias Phoenix.HTML.Tag
 
   @doc """
-  Turns a %Plug.Conn{} with metatags into HTML
+  Turns a `%Plug.Conn{}` with metatags into HTML
   """
   @spec from_conn(Plug.Conn.t()) :: HTML.Safe.t()
   def from_conn(%Plug.Conn{private: %{metatags: metatags}}) do

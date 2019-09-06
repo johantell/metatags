@@ -39,21 +39,24 @@ defmodule MyRouter do
 
 ## Usage
 
-In your controller put page specific data
+In your controller put page specific data:
 ```elixir
 conn
 |> Metatags.put("title", "About My_app")
-|> Metatags.put("og", %{"image" => "http://myimage.jpg"})
+|> Metatags.put("description", "My app is just a regular app")
+|> Metatags.put("og", %{"image" => "http://myimage.jpg"}) # You can have nested structures
+|> Metatags.put("og:image", "http://myimage.jpg") # or define them inline
 ```
 
 And print them out inside your head tag
-```html
+```elixir
 <!DOCTYPE>
 <html>
-<head>
-    <%= Metatags.print_tags(@conn) %>
-</head>
-<body>
-</body>
+  <head>
+      <%= Metatags.print_tags(@conn) %>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+  </body>
 </html>
 ```
