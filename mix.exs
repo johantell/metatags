@@ -1,6 +1,8 @@
 defmodule Metatags.Mixfile do
   use Mix.Project
 
+  @version "0.3.0"
+
   @description """
   Metatags provides an easy to work with API to set default and
   page specific metatags on a page.
@@ -9,7 +11,7 @@ defmodule Metatags.Mixfile do
   def project do
     [
       app: :metatags,
-      version: "0.3.0",
+      version: @version,
       elixir: "~> 1.4",
       deps: deps(),
       description: @description,
@@ -24,7 +26,8 @@ defmodule Metatags.Mixfile do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
-      ]
+      ],
+      docs: docs()
     ]
   end
 
@@ -42,10 +45,22 @@ defmodule Metatags.Mixfile do
     [
       name: :metatags,
       description: @description,
-      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md"],
       maintainers: ["johan Tell"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/johantell/metatags"}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: [
+        "README.md",
+        "CHANGELOG.md"
+      ],
+      source_ref: "v#{@version}",
+      source_url: "https://github.com/johantell/metatags"
     ]
   end
 end
