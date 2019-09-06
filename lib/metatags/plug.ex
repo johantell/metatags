@@ -1,6 +1,6 @@
 defmodule Metatags.Plug do
   @moduledoc """
-  Metatags.Plug is a plug that can be used in a Plug router
+  `Metatags.Plug` is a plug that can be used in a Plug router
   """
 
   alias Plug.Conn
