@@ -2,7 +2,7 @@ defmodule MetatagsTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
-  describe "put" do
+  describe "put/3" do
     test "puts the passed metatag data into the %Plug.Conn{}" do
       conn = Metatags.put(build_conn(), "title", "my title")
 
@@ -16,7 +16,19 @@ defmodule MetatagsTest do
     end
   end
 
-  describe "print_tags" do
+  describe "put/4" do
+    test "puts the value and extra attributes into the %Plug.Conn{}" do
+      conn =
+        Metatags.put(build_conn(), "canonical", "https://example.com/",
+          hreflang: "sv-SE"
+        )
+
+      assert %{"canonical" => {"https://example.com/", [hreflang: "sv-SE"]}} =
+               conn.private.metatags.metatags
+    end
+  end
+
+  describe "print_tags/1" do
     test "returns the defined tags" do
       conn = Metatags.put(build_conn(), "title", "hello world")
 
