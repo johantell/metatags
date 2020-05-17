@@ -3,8 +3,7 @@ defmodule Metatags.HTML do
   Transforms metatags to HTML
   """
 
-  alias Phoenix.HTML
-  alias Phoenix.HTML.Tag
+  alias Metatags.HTML.TagBuilder
 
   @doc """
   Turns a `%Plug.Conn{}` with metatags into HTML
@@ -14,7 +13,7 @@ defmodule Metatags.HTML do
     {metatags, config} = Map.pop(metatags, :metatags)
 
     Enum.reduce(metatags, [], fn {key, value}, acc ->
-      [print_tag(metatags, key, value, config) | acc]
+      [TagBuilder.print_tag(metatags, key, value, config) | acc]
     end)
   end
 
@@ -22,36 +21,5 @@ defmodule Metatags.HTML do
     raise ArgumentError,
       message:
         "No metatags was present in the passed struct. Did you forget to add it?"
-  end
-
-  defp print_tag(metatags, prefix, %{} = map, config) do
-    map
-    |> Enum.reduce([], fn {key, value}, acc ->
-      [print_tag(metatags, "#{prefix}:#{key}", value, config) | acc]
-    end)
-  end
-
-  defp print_tag(_, "title", nil, %{sitename: nil}), do: ""
-
-  defp print_tag(_, "title", value, %{sitename: sitename}) when is_nil(value) do
-    Tag.content_tag(:title, do: sitename)
-  end
-
-  defp print_tag(_, "title", value, %{
-         sitename: sitename,
-         title_separator: separator
-       }) do
-    suffix = if sitename, do: [separator, sitename], else: []
-
-    Tag.content_tag(:title, do: Enum.join([value] ++ suffix, " "))
-  end
-
-  defp print_tag(metatags, "keywords", value, config)
-       when is_list(value) do
-    print_tag(metatags, "keywords", Enum.join(value, ", "), config)
-  end
-
-  defp print_tag(_, key, value, _) do
-    Tag.tag(:meta, name: key, content: value)
   end
 end
