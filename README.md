@@ -28,13 +28,13 @@ defmodule MyRouter do
   use Plug.Conn
 
   plug Metatags.Plug,
-     sitename: "My_app",
-     separator: "-",
-     default_tags: %{
-       "title" => "Welcome!",
-       "description" => "My_app is a great app",
-       "keywords" => ["My_app", "great", "elixir"]
-     }
+    sitename: "My_app",
+    separator: "-",
+    default_tags: %{
+      "title" => "Welcome!",
+      "description" => "My_app is a great app",
+      "keywords" => ["My_app", "great", "elixir"]
+    }
 ```
 
 ## Usage
@@ -46,6 +46,8 @@ conn
 |> Metatags.put("description", "My app is just a regular app")
 |> Metatags.put("og", %{"image" => "http://myimage.jpg"}) # You can have nested structures
 |> Metatags.put("og:image", "http://myimage.jpg") # or define them inline
+|> Metatags.put("canonical", "http://my-url.com")
+|> Metatags.put("alternate", "http://en.my-url.com", hreflang: "en-GB")
 ```
 
 And print them out inside your head tag
@@ -53,7 +55,7 @@ And print them out inside your head tag
 <!DOCTYPE>
 <html>
   <head>
-      <%= Metatags.print_tags(@conn) %>
+    <%= Metatags.print_tags(@conn) %>
   </head>
   <body>
     <h1>Welcome</h1>
