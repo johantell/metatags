@@ -32,6 +32,38 @@ defmodule Metatags.HTML.TagBuilder do
     print_tag(metatags, "keywords", Enum.join(value, ", "), config)
   end
 
+  def print_tag(_, "next" = name, value, _) when is_binary(value) do
+    Tag.tag(:link, rel: name, href: value)
+  end
+
+  def print_tag(_, "canonical" = name, value, _) when is_binary(value) do
+    Tag.tag(:link, rel: name, href: value)
+  end
+
+  def print_tag(_, "alternate" = name, {value, extra_attributes}, _)
+      when is_list(extra_attributes) do
+    Tag.tag(:link, [rel: name, href: value] ++ extra_attributes)
+  end
+
+  def print_tag(_, "alternate" = name, value, _) when is_binary(value) do
+    Tag.tag(:link, rel: name, href: value)
+  end
+
+  def print_tag(_, "apple-touch-icon-precomposed" = name, value, _)
+      when is_binary(value) do
+    Tag.tag(:link, rel: name, href: value)
+  end
+
+  def print_tag(
+        _,
+        "apple-touch-icon-precomposed" = name,
+        {value, extra_attributes},
+        _
+      )
+      when is_list(extra_attributes) do
+    Tag.tag(:link, [rel: name, href: value] ++ extra_attributes)
+  end
+
   def print_tag(_, key, value, _) do
     Tag.tag(:meta, name: key, content: value)
   end
