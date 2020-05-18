@@ -1,4 +1,6 @@
 defmodule Metatags.HTML.TagBuilder do
+  @moduledoc false
+
   alias Phoenix.HTML.Tag
 
   @type metatags_struct :: struct()
