@@ -19,6 +19,11 @@ defmodule Metatags.Mixfile do
       test_coverage: [
         tool: ExCoveralls
       ],
+      dialyzer: [
+        plt_add_apps: [:mix],
+        plt_add_deps: :transitive,
+        ignore_warnings: ".dialyzer_ignore.exs"
+      ],
       preferred_cli_env: [
         credo: :test,
         dialyzer: :test,
