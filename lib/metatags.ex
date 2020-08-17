@@ -35,6 +35,11 @@ defmodule Metatags do
     Conn.put_private(conn, :metatags, metatags)
   end
 
+  @spec put(Conn.t(), String.t(), metatag_value, Keyword.t()) :: struct
+  def put(conn, key, value, extra_attributes) do
+    put(conn, key, {value, extra_attributes})
+  end
+
   @doc """
     Turns metadata information into HTML tags
   """
