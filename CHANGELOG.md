@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1
+- Add support for common `<link>` tags: `next`, `canonical`, `alternate`
+  and `apple-touch-icon-precomposed`
+- Add `Metatags.put/4` to enable extra attributes to be set on the metatags.
+  One example would be:
+
+  `Metatags.put(conn, "alternate", "https://my-url.se",
+  hreflang: "sv_SE")`
+
 ## 0.3.0
 - Move configuration of default values to the plug definition
 - Extract the plug to `Metatags.Plug`
