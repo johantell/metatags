@@ -7,7 +7,8 @@ defmodule Metatags do
   alias Metatags.HTML
   alias Plug.Conn
 
-  @type metatag_value :: String.t() | [String.t()] | map() | nil
+  @type metatag_value ::
+          String.t() | [String.t()] | {String.t(), Keyword.t()} | map() | nil
 
   @doc """
     Puts a key and a value in the on a %Conn{} struct
@@ -43,7 +44,7 @@ defmodule Metatags do
   @doc """
     Turns metadata information into HTML tags
   """
-  @spec print_tags(Conn.t()) :: Phoenix.HTML.Safe.t()
+  @spec print_tags(Conn.t()) :: Phoenix.HTML.safe()
   def print_tags(%Conn{} = conn) do
     HTML.from_conn(conn)
   end

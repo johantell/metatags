@@ -19,54 +19,91 @@ defmodule Metatags.HTML.TagBuilderTest do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "next", "https://example.com", config)
+      result =
+        TagBuilder.print_tag(metatags, "next", "https://example.com", config)
 
-      assert safe_to_string(result) == ~s(<link href="https://example.com" rel="next">)
+      assert safe_to_string(result) ==
+               ~s(<link href="https://example.com" rel="next">)
     end
 
     test "prints `canonical` with a `<link>` element" do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "canonical", "https://example.com", config)
+      result =
+        TagBuilder.print_tag(
+          metatags,
+          "canonical",
+          "https://example.com",
+          config
+        )
 
-      assert safe_to_string(result) == ~s(<link href="https://example.com" rel="canonical">)
+      assert safe_to_string(result) ==
+               ~s(<link href="https://example.com" rel="canonical">)
     end
 
     test "prints `alternate` with a `<link>` element" do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "alternate", "https://example.com", config)
+      result =
+        TagBuilder.print_tag(
+          metatags,
+          "alternate",
+          "https://example.com",
+          config
+        )
 
-      assert safe_to_string(result) == ~s(<link href="https://example.com" rel="alternate">)
+      assert safe_to_string(result) ==
+               ~s(<link href="https://example.com" rel="alternate">)
     end
 
     test "prints `alternate` with a `<link>` element and extra attributes" do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "alternate", {"https://example.com", hreflang: "sv-SE"}, config)
+      result =
+        TagBuilder.print_tag(
+          metatags,
+          "alternate",
+          {"https://example.com", hreflang: "sv-SE"},
+          config
+        )
 
-      assert safe_to_string(result) == ~s(<link href="https://example.com" hreflang="sv-SE" rel="alternate">)
+      assert safe_to_string(result) ==
+               ~s(<link href="https://example.com" hreflang="sv-SE" rel="alternate">)
     end
 
     test "prints `apple-touch-icon-precomposed` with a `<link>` element and extra attributes" do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "apple-touch-icon-precomposed", {"favicon.png", sizes: "144x144"} , config)
+      result =
+        TagBuilder.print_tag(
+          metatags,
+          "apple-touch-icon-precomposed",
+          {"favicon.png", sizes: "144x144"},
+          config
+        )
 
-      assert safe_to_string(result) == ~s(<link href="favicon.png" rel="apple-touch-icon-precomposed" sizes="144x144">)
+      assert safe_to_string(result) ==
+               ~s(<link href="favicon.png" rel="apple-touch-icon-precomposed" sizes="144x144">)
     end
 
     test "prints `apple-touch-icon-precomposed` with a `<link>` element" do
       metatags = %{}
       config = %Config{}
 
-      result = TagBuilder.print_tag(metatags, "apple-touch-icon-precomposed", "favicon.png", config)
+      result =
+        TagBuilder.print_tag(
+          metatags,
+          "apple-touch-icon-precomposed",
+          "favicon.png",
+          config
+        )
 
-      assert safe_to_string(result) == ~s(<link href="favicon.png" rel="apple-touch-icon-precomposed">)
+      assert safe_to_string(result) ==
+               ~s(<link href="favicon.png" rel="apple-touch-icon-precomposed">)
     end
   end
 

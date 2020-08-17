@@ -8,7 +8,7 @@ defmodule Metatags.HTML do
   @doc """
   Turns a `%Plug.Conn{}` with metatags into HTML
   """
-  @spec from_conn(Plug.Conn.t()) :: HTML.Safe.t()
+  @spec from_conn(Plug.Conn.t()) :: Phoenix.HTML.safe()
   def from_conn(%Plug.Conn{private: %{metatags: metatags}}) do
     {metatags, config} = Map.pop(metatags, :metatags)
 
