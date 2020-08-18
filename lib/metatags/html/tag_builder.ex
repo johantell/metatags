@@ -6,7 +6,7 @@ defmodule Metatags.HTML.TagBuilder do
   @type metatags_struct :: struct()
 
   @spec print_tag(metatags_struct(), String.t(), any(), Metatags.Config.t()) ::
-          HTML.Safe.t()
+          Phoenix.HTML.safe()
   def print_tag(metatags, prefix, %{} = map, config) do
     map
     |> Enum.reduce([], fn {key, value}, acc ->
