@@ -29,7 +29,7 @@ defmodule MyRouter do
 
   plug Metatags.Plug,
     sitename: "My_app",
-    separator: "-",
+    title_separator: "-",
     default_tags: %{
       "title" => "Welcome!",
       "description" => "My_app is a great app",
