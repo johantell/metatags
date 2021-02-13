@@ -6,8 +6,9 @@
 - Add `Metatags.put/4` to enable extra attributes to be set on the metatags.
   One example would be:
 
-  `Metatags.put(conn, "alternate", "https://my-url.se",
-  hreflang: "sv_SE")`
+  ```elixir
+  Metatags.put(conn, "alternate", "https://my-url.se", hreflang: "sv_SE")
+  ```
 
 ## 0.3.0
 - Move configuration of default values to the plug definition
