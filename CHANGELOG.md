@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.1
+- Require elixir 1.10
 - Add support for common `<link>` tags: `next`, `canonical`, `alternate`
   and `apple-touch-icon-precomposed`
 - Add `Metatags.put/4` to enable extra attributes to be set on the metatags.
