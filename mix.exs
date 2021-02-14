@@ -12,7 +12,7 @@ defmodule Metatags.Mixfile do
     [
       app: :metatags,
       version: @version,
-      elixir: "~> 1.4",
+      elixir: "~> 1.10",
       deps: deps(),
       description: @description,
       package: package(),
