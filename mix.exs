@@ -38,7 +38,7 @@ defmodule Metatags.Mixfile do
 
   defp deps do
     [
-      {:phoenix_html, "~> 2.9"},
+      {:phoenix_html, "~> 3.0"},
       {:ex_doc, "~> 0.16", only: :dev},
       {:credo, ">= 0.0.0", only: :test, runtime: false},
       {:excoveralls, ">= 0.0.0", only: :test, runtime: false},
