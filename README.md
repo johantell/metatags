@@ -15,7 +15,7 @@ Add `metatags` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:metatags, "~> 0.3.1"}]
+  [{:metatags, "~> 0.3.2"}]
 end
 ```
 

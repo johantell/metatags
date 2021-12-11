@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2
+- Update `phoenix_html` to `~> 3.1`
+
 ## 0.3.1
 - Require elixir 1.10
 - Add support for common `<link>` tags: `next`, `canonical`, `alternate`
