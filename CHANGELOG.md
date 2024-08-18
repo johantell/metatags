@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+- Remove reliance on `phoenix_html` to build tags
+- Relax `phoenix_html` versions
+
 ## 0.3.2
 - Update `phoenix_html` to `~> 3.1`
 

@@ -1,7 +1,7 @@
 defmodule Metatags.Mixfile do
   use Mix.Project
 
-  @version "0.3.2"
+  @version "0.4.0"
 
   @description """
   Metatags provides an easy to work with API to set default and
