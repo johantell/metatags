@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/metatags
   docker:
-    - image: elixir:1.10.3
+    - image: elixir:1.17.1
       environment:
         MIX_ENV: test
 
@@ -14,15 +14,15 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-deps-cache-{{ checksum "mix.lock" }}
-            - v2-deps-cache
+            - v3-deps-cache-{{ checksum "mix.lock" }}
+            - v3-deps-cache
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
       - run: mix deps.compile
       - run: mix compile
       - save_cache:
-          key: v2-deps-cache-{{ checksum "mix.lock" }}
+          key: v3-deps-cache-{{ checksum "mix.lock" }}
           paths:
             - _build
             - deps
@@ -67,11 +67,11 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - v1-plt-cache-{{ checksum "mix.lock" }}
-            - v1-plt-cache
+            - v2-plt-cache-{{ checksum "mix.lock" }}
+            - v2-plt-cache
       - run: mix dialyzer --plt
       - save_cache:
-          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          key: v2-plt-cache-{{ checksum "mix.lock" }}
           paths:
             - _build
             - ~/.mix
