@@ -72,8 +72,7 @@ defmodule Metatags.HTML.TagBuilder do
     formatted_attributes =
       attributes
       |> Enum.sort_by(fn {key, _value} -> attribute_prio(key) end, :desc)
-      |> Enum.map(fn {key, value} -> ~s(#{key}="#{value}") end)
-      |> Enum.join(" ")
+      |> Enum.map_join(" ", fn {key, value} -> ~s(#{key}="#{value}") end)
 
     {:safe, ~s(<#{type} #{formatted_attributes}>)}
   end
