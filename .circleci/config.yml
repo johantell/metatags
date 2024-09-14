@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/metatags
   docker:
-    - image: elixir:1.10.3
+    - image: elixir:1.17.1
       environment:
         MIX_ENV: test
 
