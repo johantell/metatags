@@ -1,0 +1,135 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  MIX_ENV: test
+  OTP_VERSION: '27.0'
+  ELIXIR_VERSION: '1.17.2'
+
+jobs:
+  deps:
+    name: Precompilation & Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{env.OTP_VERSION}}
+          elixir-version: ${{env.ELIXIR_VERSION}}
+
+      - name: Retrieve Cached Dependencies
+        uses: actions/cache@v4
+        id: deps-cache
+        with:
+          path: |
+            deps
+            _build
+          key: deps-cache-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            deps-cache-${{ hashFiles('.tool-versions')}}-
+
+      # `mix loadpaths` is a more efficient way of doing `mix deps.compile`
+      - name: Compile Dependencies & Project + Build Dialyzer PLT
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        run: |
+          mix deps.get
+          mix loadpaths
+          mix dialyzer --plt
+
+      - name: Compile Project
+        if: steps.deps-cache.outputs.cache-hit == 'true'
+        run: |
+          mix compile
+
+      - name: Cache Project
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: project-cache-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}-${{ github.run_number }}
+
+  static_code_analysis:
+    name: Static Code Analysis
+    needs: deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{env.OTP_VERSION}}
+          elixir-version: ${{env.ELIXIR_VERSION}}
+
+      - name: Retrieve Cached Dependencies & Project
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            deps
+            _build
+          key: project-cache-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}-${{ github.run_number }}
+
+      - name: Check Code Format
+        run: mix format --check-formatted
+
+      - name: Check compile time warnings
+        run: mix compile --warnings-as-errors --all-warnings
+
+      - name: Run Credo
+        run: mix credo
+
+      - name: Run Dialyzer
+        run: mix dialyzer --no-check --format github
+
+  unit_tests:
+    name: Unit Tests
+    needs: deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{env.OTP_VERSION}}
+          elixir-version: ${{env.ELIXIR_VERSION}}
+
+      - name: Retrieve Cached Dependencies & Project
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            deps
+            _build
+          key: project-cache-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}-${{ github.run_number }}
+
+      - name: Run test
+        run: mix coveralls.cobertura --warnings-as-errors --color
+
+      - name: Report test coverage
+        uses: ewjoachim/coverage-comment-action@v1.0.3
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          COVERAGE_FILE: cover/cobertura.xml
