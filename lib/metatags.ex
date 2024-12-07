@@ -1,7 +1,7 @@
 defmodule Metatags do
   @moduledoc """
-    Metatags is used to provide an easy API to print out context-specific
-    metatags.
+  Metatags is used to provide an easy API to print out context-specific
+  metatags.
   """
 
   alias Metatags.HTML
@@ -11,15 +11,15 @@ defmodule Metatags do
           String.t() | [String.t()] | {String.t(), Keyword.t()} | map() | nil
 
   @doc """
-    Puts a key and a value in the on a %Conn{} struct
+  Puts a key and a value in the on a %Conn{} struct
 
-    example:
+  example:
 
-    ```
-    iex> conn = %Conn{}
-    iex> Metatags.put(conn, "title", "Welcome!")
-    %Conn{private: %{metadata: %{"title" => "Welcome!"}}}
-    ```
+  ```
+  iex> conn = %Conn{}
+  iex> Metatags.put(conn, "title", "Welcome!")
+  %Conn{private: %{metadata: %{"title" => "Welcome!"}}}
+  ```
   """
   @spec put(Conn.t(), atom, metatag_value()) :: struct
   def put(conn, key, value) when is_atom(key) do
@@ -42,7 +42,7 @@ defmodule Metatags do
   end
 
   @doc """
-    Turns metadata information into HTML tags
+  Turns metadata information into HTML tags
   """
   @spec print_tags(Conn.t()) :: Phoenix.HTML.safe()
   def print_tags(%Conn{} = conn) do

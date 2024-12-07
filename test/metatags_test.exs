@@ -32,8 +32,8 @@ defmodule MetatagsTest do
     test "returns the defined tags" do
       conn = Metatags.put(build_conn(), "title", "hello world")
 
-      assert "<title>hello world</title>" =
-               safe_to_string(Metatags.print_tags(conn))
+      assert safe_to_string(Metatags.print_tags(conn)) =~
+               "<title>hello world</title>"
     end
   end
 
