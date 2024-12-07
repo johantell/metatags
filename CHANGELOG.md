@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0
+- Set canonical URL to metatags (unless set) before printing
+
 ## 0.4.0
 - Remove reliance on `phoenix_html` to build tags
 - Relax `phoenix_html` versions
