@@ -21,7 +21,7 @@ defmodule Metatags.Mixfile do
       ],
       dialyzer: [
         plt_add_apps: [:mix],
-        plt_add_deps: :transitive,
+        plt_add_deps: :app_tree,
         ignore_warnings: ".dialyzer_ignore.exs"
       ],
       preferred_cli_env: [
