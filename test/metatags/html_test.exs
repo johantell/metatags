@@ -9,13 +9,13 @@ defmodule Metatags.HTMLTest do
     test "returns the metatags as html" do
       conn = Metatags.put(build_conn(), "title", "my title")
 
-      assert "<title>my title</title>" = safe_to_string(HTML.from_conn(conn))
+      assert safe_to_string(HTML.from_conn(conn)) =~ "<title>my title</title>"
     end
 
     test "returns a Phoenix.HTML.Safe" do
       conn = Metatags.put(build_conn(), "title", "my title")
 
-      assert [{:safe, _}] = HTML.from_conn(conn)
+      assert [{:safe, _}, {:safe, _}] = HTML.from_conn(conn)
     end
 
     test "raises an error when not passed a %Plug.Conn{}" do
@@ -59,6 +59,38 @@ defmodule Metatags.HTMLTest do
 
       assert safe_to_string(HTML.from_conn(conn)) =~
                "<title>page</title>"
+    end
+
+    test "sets a missing canonical metatag to current url" do
+      default_options = []
+      conn = build_conn(default_options)
+
+      assert safe_to_string(HTML.from_conn(conn)) =~
+               ~s(<link href="http://www.example.com/" rel="canonical">)
+    end
+
+    test "does not override a set canonical metatag" do
+      default_options = []
+
+      conn =
+        default_options
+        |> build_conn()
+        |> Metatags.put("canonical", "https://example.com/canonical/path")
+
+      assert safe_to_string(HTML.from_conn(conn)) =~
+               ~s(<link href="https://example.com/canonical/path" rel="canonical">)
+    end
+
+    test "ignores query params when setting an automated canonical url" do
+      default_metatags = []
+
+      conn =
+        :get
+        |> conn("/path/?query=params")
+        |> Metatags.Plug.call(Metatags.Plug.init(default_metatags))
+
+      assert safe_to_string(HTML.from_conn(conn)) =~
+               ~s(<link href="http://www.example.com/path/" rel="canonical">)
     end
   end
 
