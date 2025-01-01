@@ -35,6 +35,39 @@ defmodule MetatagsTest do
       assert safe_to_string(Metatags.print_tags(conn)) =~
                "<title>hello world</title>"
     end
+
+    
+    test "sets a missing canonical metatag to current url" do
+      default_options = []
+      conn = build_conn(default_options)
+
+      assert safe_to_string(Metatags.print_tags(conn)) =~
+               ~s(<link href="http://www.example.com/" rel="canonical">)
+    end
+
+    test "does not override a set canonical metatag" do
+      default_options = []
+
+      conn =
+        default_options
+        |> build_conn()
+        |> Metatags.put("canonical", "https://example.com/canonical/path")
+
+      assert safe_to_string(Metatags.print_tags(conn)) =~
+               ~s(<link href="https://example.com/canonical/path" rel="canonical">)
+    end
+
+    test "ignores query params when setting an automated canonical url" do
+      default_metatags = []
+
+      conn =
+        :get
+        |> conn("/path/?query=params")
+        |> Metatags.Plug.call(Metatags.Plug.init(default_metatags))
+
+      assert safe_to_string(Metatags.print_tags(conn)) =~
+               ~s(<link href="http://www.example.com/path/" rel="canonical">)
+    end
   end
 
   defp build_conn(default_metatags \\ []) do
