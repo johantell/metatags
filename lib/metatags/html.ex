@@ -3,8 +3,8 @@ defmodule Metatags.HTML do
   Transforms metatags to HTML
   """
 
-  alias Metatags.HTML.TagBuilder
   alias Metatags.Config
+  alias Metatags.HTML.TagBuilder
 
   @doc """
   Turns a `%Plug.Conn{}` with metatags into HTML
