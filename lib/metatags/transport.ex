@@ -11,4 +11,5 @@ defprotocol Metatags.Transport do
 
   @spec get_metatags(t()) :: Metatags.Config.t()
   def get_metatags(transport)
+  def canonical_url(transport)
 end

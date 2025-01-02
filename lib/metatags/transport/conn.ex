@@ -31,4 +31,8 @@ defimpl Metatags.Transport, for: Plug.Conn do
   def get_metatags(%Conn{private: %{metatags: %Metatags.Config{} = metatags}}) do
     metatags
   end
+
+  def canonical_url(%Conn{} = conn) do
+    Conn.request_url(%Conn{conn | query_string: ""})
+  end
 end

@@ -4,6 +4,7 @@ defmodule Metatags do
   metatags.
   """
 
+  alias Metatags.Config
   alias Metatags.HTML
   alias Metatags.Transport
 
@@ -37,6 +38,19 @@ defmodule Metatags do
   """
   @spec print_tags(struct()) :: Phoenix.HTML.safe()
   def print_tags(transport) do
-    HTML.from_conn(transport)
+    transport
+    |> Transport.get_metatags()
+    |> add_missing_canonical(transport)
+    |> HTML.from_metatags()
+  end
+
+  defp add_missing_canonical(metatags, transport) do
+    if Map.has_key?(metatags.metatags, "canonical") do
+      metatags
+    else
+      canonical_url = Transport.canonical_url(transport)
+
+      Config.put_meta(metatags, "canonical", canonical_url)
+    end
   end
 end
