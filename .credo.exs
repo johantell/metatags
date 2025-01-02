@@ -76,7 +76,6 @@
         #
         {Credo.Check.Design.TagTODO, exit_status: 2},
         {Credo.Check.Design.TagFIXME},
-
         {Credo.Check.Readability.FunctionNames},
         {Credo.Check.Readability.LargeNumbers},
         {Credo.Check.Readability.MaxLineLength, priority: :low, max_length: 90},
@@ -94,7 +93,6 @@
         {Credo.Check.Readability.VariableNames},
         {Credo.Check.Readability.Semicolons},
         {Credo.Check.Readability.SpaceAfterCommas},
-
         {Credo.Check.Refactor.DoubleBooleanNegation},
         {Credo.Check.Refactor.CondStatements},
         {Credo.Check.Refactor.CyclomaticComplexity},
@@ -106,11 +104,10 @@
         {Credo.Check.Refactor.Nesting},
         {Credo.Check.Refactor.PipeChainStart, false},
         {Credo.Check.Refactor.UnlessWithElse},
-
         {Credo.Check.Warning.BoolOperationOnSameValues},
         {Credo.Check.Warning.IExPry},
         {Credo.Check.Warning.IoInspect},
-        {Credo.Check.Warning.LazyLogging},
+        {Credo.Check.Warning.LazyLogging, false},
         {Credo.Check.Warning.OperationOnSameValues},
         {Credo.Check.Warning.OperationWithConstantResult},
         {Credo.Check.Warning.UnusedEnumOperation},
@@ -129,7 +126,7 @@
         {Credo.Check.Refactor.AppendSingleItem, false},
         {Credo.Check.Refactor.VariableRebinding, false},
         {Credo.Check.Warning.MapGetUnsafePass, false},
-        {Credo.Check.Consistency.MultiAliasImportRequireUse},
+        {Credo.Check.Consistency.MultiAliasImportRequireUse}
 
         # Custom checks can be created using `mix credo.gen.check`.
         #
