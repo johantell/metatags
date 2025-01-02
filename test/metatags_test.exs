@@ -36,7 +36,6 @@ defmodule MetatagsTest do
                "<title>hello world</title>"
     end
 
-    
     test "sets a missing canonical metatag to current url" do
       default_options = []
       conn = build_conn(default_options)

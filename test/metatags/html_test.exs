@@ -56,7 +56,6 @@ defmodule Metatags.HTMLTest do
       assert safe_to_string(HTML.from_metatags(metatags)) =~
                "<title>page</title>"
     end
-
   end
 
   defp build_config(defaults \\ []) do
