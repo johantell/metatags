@@ -11,7 +11,11 @@ defmodule Metatags.Transport.ConnTest do
 
       conn = Transport.put(conn, "title", "my title")
 
-      assert %Plug.Conn{private: %{metatags: %Metatags.Config{metatags: %{"title" => "my title"}}}} = conn
+      assert %Plug.Conn{
+               private: %{
+                 metatags: %Metatags.Config{metatags: %{"title" => "my title"}}
+               }
+             } = conn
     end
   end
 
@@ -30,5 +34,4 @@ defmodule Metatags.Transport.ConnTest do
     |> conn("/")
     |> Metatags.Plug.call(defaults)
   end
-
 end
