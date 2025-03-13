@@ -11,5 +11,7 @@ defprotocol Metatags.Transport do
 
   @spec get_metatags(t()) :: Metatags.Config.t()
   def get_metatags(transport)
-  def canonical_url(transport)
+
+  @spec init(t(), Keyword.t()) :: t()
+  def init(transport, options)
 end

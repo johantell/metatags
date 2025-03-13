@@ -16,7 +16,7 @@ defmodule Metatags.Config do
     title_separator = Keyword.get(options, :title_separator, "-")
 
     default_tags =
-      Map.new([{"title", nil} | default_tags], fn {key, value} ->
+      Map.new([{"title", nil} | Enum.to_list(default_tags)], fn {key, value} ->
         {to_string(key), value}
       end)
 
