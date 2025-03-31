@@ -1,6 +1,7 @@
 defmodule MetatagsTest do
   use ExUnit.Case, async: true
-  use Plug.Test
+
+  import Plug.Test
 
   describe "put/3" do
     test "puts the passed metatag data into the %Plug.Conn{}" do

@@ -1,9 +1,10 @@
 defmodule Metatags.Transport.ConnTest do
   use ExUnit.Case, async: true
-  use Plug.Test
 
   alias Metatags.Config
   alias Metatags.Transport
+
+  import Plug.Test
 
   describe "put/4" do
     test "puts a value inside the `Conn` private scope" do
