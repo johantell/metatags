@@ -41,6 +41,8 @@ defimpl Metatags.Transport, for: Plug.Conn do
   def init(%Conn{} = conn, config) do
     metatags = Metatags.Config.build(config)
 
-    Conn.assign(conn, :__metatags__, metatags)
+    conn
+    |> Conn.assign(:__metatags__, metatags)
+    |> Metatags.put(:canonical, canonical_url(conn))
   end
 end

@@ -34,14 +34,14 @@ defmodule Metatags.PlugTest do
   end
 
   describe "call/2" do
-    test "puts the metatags config on the `Plug.Conn` struct" do
+    test "assigns the metatags config on the `Plug.Conn`" do
       conn = %Plug.Conn{}
 
       metatags = %Metatags.Config{
         metatags: %{"title" => nil, "description" => "a description"}
       }
 
-      assert %{private: %{metatags: ^metatags}} =
+      assert %{assigns: %{__metatags__: ^metatags}} =
                Metatags.Plug.call(conn, metatags)
     end
   end

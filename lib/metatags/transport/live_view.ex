@@ -57,16 +57,3 @@ defimpl Metatags.Transport, for: Phoenix.LiveView.Socket do
     assign(socket, @assign_name, metatags)
   end
 end
-
-defimpl Metatags.Transport, for: Map do
-  @moduledoc false
-
-  # Duck typing phoenix live view assigns as the full socket
-  # isn't available on root layouts, where metatags are usually put.
-  def get_metatags(%{__metatags__: metatags}) do
-    metatags
-  end
-
-  def put(_, _, _, _ \\ []), do: raise "Don't use this"
-  def init(_, _options), do: raise "Don't use this"
-end
