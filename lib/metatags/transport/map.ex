@@ -7,7 +7,6 @@ defimpl Metatags.Transport, for: Map do
     metatags
   end
 
-  # TODO: More helpful error messages
   def put(map, _, _, _ \\ []) do
     raise("""
     `Metatags.put/4` was used on a map
