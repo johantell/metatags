@@ -4,7 +4,7 @@ defprotocol Metatags.Transport do
   whether it be a `Plug.Conn`, a `Phoenix.LiveView.Socket` or something else.
   """
 
-  @type t :: struct()
+  @type t :: struct() | map()
 
   @spec put(t(), String.t() | atom(), any()) :: t()
   def put(transport, key, value)
