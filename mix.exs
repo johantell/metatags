@@ -24,14 +24,6 @@ defmodule Metatags.Mixfile do
         plt_add_deps: :app_tree,
         ignore_warnings: ".dialyzer_ignore.exs"
       ],
-      preferred_cli_env: [
-        credo: :test,
-        dialyzer: :test,
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test
-      ],
       docs: docs()
     ]
   end
@@ -45,6 +37,19 @@ defmodule Metatags.Mixfile do
       {:credo, ">= 0.0.0", only: :test, runtime: false},
       {:excoveralls, ">= 0.0.0", only: :test, runtime: false},
       {:dialyxir, "~> 1.0", only: :test, runtime: false}
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        credo: :test,
+        dialyzer: :test,
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
