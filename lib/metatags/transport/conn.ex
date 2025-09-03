@@ -35,7 +35,7 @@ defimpl Metatags.Transport, for: Plug.Conn do
   end
 
   def canonical_url(%Conn{} = conn) do
-    Conn.request_url(%Conn{conn | query_string: ""})
+    Conn.request_url(%{conn | query_string: ""})
   end
 
   def init(%Conn{} = conn, config) do
