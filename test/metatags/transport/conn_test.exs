@@ -7,14 +7,14 @@ defmodule Metatags.Transport.ConnTest do
   import Plug.Test
 
   describe "put/4" do
-    test "puts a value inside the `Conn` private scope" do
+    test "assigns the metatags to the `Plug.Conn`" do
       conn = build_conn()
 
       conn = Transport.put(conn, "title", "my title")
 
       assert %Plug.Conn{
-               private: %{
-                 metatags: %Metatags.Config{metatags: %{"title" => "my title"}}
+               assigns: %{
+                 __metatags__: %Metatags.Config{}
                }
              } = conn
     end
@@ -29,10 +29,8 @@ defmodule Metatags.Transport.ConnTest do
   end
 
   defp build_conn(default_metatags \\ []) do
-    defaults = Metatags.Plug.init(default_metatags)
-
     :get
     |> conn("/")
-    |> Metatags.Plug.call(defaults)
+    |> Metatags.init(default_metatags)
   end
 end

@@ -19,6 +19,33 @@ def deps do
 end
 ```
 
+### For LiveView
+
+Add the `on_mount` option to initialize and set up a hook to automatically set
+the canonical url.
+
+```elixir
+@metatags_config = Application.compile_env(:my_app, Metatags)
+
+live_session :default, on_mount: [{Metatags.LiveView, {:init, metatags_config}}]
+```
+
+In your live views `mount/3`/`handle_params/3`:
+
+```elixir
+def handle_params(_params, _url, socket) do
+  socket =
+    socket
+    |> Metatags.put("author", "Johan Tell")
+    |> Metatags.put("description", "My perfect description")
+
+  {:ok, socket}
+end
+
+```
+
+### For Plug
+
 Add the plug to your router and configure the defaults
 (You can use `Application.get_env/3` if you'd like to extract it into the
 configuration file).
@@ -39,7 +66,7 @@ defmodule MyRouter do
 
 ## Usage
 
-In your controller put page specific data:
+In your controller/live views put page specific data:
 ```elixir
 conn
 |> Metatags.put("title", "About My_app")
@@ -55,7 +82,7 @@ And print them out inside your head tag
 <!DOCTYPE>
 <html>
   <head>
-    <%= Metatags.print_tags(@conn) %>
+    {Metatags.print_tags(@conn)}
   </head>
   <body>
     <h1>Welcome</h1>

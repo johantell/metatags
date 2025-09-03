@@ -8,6 +8,7 @@ defmodule Metatags.Plug do
   @behaviour Plug
 
   @default_metatags %{"title" => nil}
+  @assign_key :__metatags__
 
   @doc false
   def init(options) do
@@ -30,6 +31,6 @@ defmodule Metatags.Plug do
 
   @doc false
   def call(conn, defaults) do
-    Conn.put_private(conn, :metatags, defaults)
+    Conn.assign(conn, @assign_key, defaults)
   end
 end

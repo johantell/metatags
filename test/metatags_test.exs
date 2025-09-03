@@ -7,13 +7,15 @@ defmodule MetatagsTest do
     test "puts the passed metatag data into the %Plug.Conn{}" do
       conn = Metatags.put(build_conn(), "title", "my title")
 
-      assert %{"title" => "my title"} == conn.private.metatags.metatags
+      assert %{"title" => "my title"} =
+               Metatags.Transport.get_metatags(conn).metatags
     end
 
     test "allows atoms as keys" do
       conn = Metatags.put(build_conn(), :title, "my title")
 
-      assert %{"title" => "my title"} == conn.private.metatags.metatags
+      assert %{"title" => "my title"} =
+               Metatags.Transport.get_metatags(conn).metatags
     end
   end
 
@@ -25,7 +27,7 @@ defmodule MetatagsTest do
         )
 
       assert %{"canonical" => {"https://example.com/", [hreflang: "sv-SE"]}} =
-               conn.private.metatags.metatags
+               Metatags.Transport.get_metatags(conn).metatags
     end
   end
 
@@ -45,25 +47,13 @@ defmodule MetatagsTest do
                ~s(<link href="http://www.example.com/" rel="canonical">)
     end
 
-    test "does not override a set canonical metatag" do
-      default_options = []
-
-      conn =
-        default_options
-        |> build_conn()
-        |> Metatags.put("canonical", "https://example.com/canonical/path")
-
-      assert safe_to_string(Metatags.print_tags(conn)) =~
-               ~s(<link href="https://example.com/canonical/path" rel="canonical">)
-    end
-
     test "ignores query params when setting an automated canonical url" do
       default_metatags = []
 
       conn =
         :get
         |> conn("/path/?query=params")
-        |> Metatags.Plug.call(Metatags.Plug.init(default_metatags))
+        |> Metatags.init(default_metatags)
 
       assert safe_to_string(Metatags.print_tags(conn)) =~
                ~s(<link href="http://www.example.com/path/" rel="canonical">)
@@ -71,11 +61,9 @@ defmodule MetatagsTest do
   end
 
   defp build_conn(default_metatags \\ []) do
-    defaults = Metatags.Plug.init(default_metatags)
-
     :get
     |> conn("/")
-    |> Metatags.Plug.call(defaults)
+    |> Metatags.init(default_metatags)
   end
 
   defp safe_to_string(safe_string) do

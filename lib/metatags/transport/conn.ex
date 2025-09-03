@@ -19,20 +19,30 @@ defimpl Metatags.Transport, for: Plug.Conn do
   alias Plug.Conn
 
   def put(
-        %Conn{private: %{metatags: %Metatags.Config{} = metatags}} = conn,
+        %Conn{assigns: %{__metatags__: %Metatags.Config{} = metatags}} = conn,
         key,
         value
       ) do
     metatags = Metatags.Config.put_meta(metatags, key, value)
 
-    Conn.put_private(conn, :metatags, metatags)
+    Conn.assign(conn, :__metatags__, metatags)
   end
 
-  def get_metatags(%Conn{private: %{metatags: %Metatags.Config{} = metatags}}) do
+  def get_metatags(%Conn{
+        assigns: %{__metatags__: %Metatags.Config{} = metatags}
+      }) do
     metatags
   end
 
   def canonical_url(%Conn{} = conn) do
-    Conn.request_url(%Conn{conn | query_string: ""})
+    Conn.request_url(%{conn | query_string: ""})
+  end
+
+  def init(%Conn{} = conn, config) do
+    metatags = Metatags.Config.build(config)
+
+    conn
+    |> Conn.assign(:__metatags__, metatags)
+    |> Metatags.put(:canonical, canonical_url(conn))
   end
 end
