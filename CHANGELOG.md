@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.0
+- Add support for `phoenix_live_view`
+
+  **Migrate**:
+  Add `{Metatags.LiveView, {:init, config}}` as an `on_mount` option to your
+  `live_session` definitions in your router.
+
+  Note: Live views own function for changing the page title will currently clash
+  with metatags. It's recommented to for now rely on Metatags version only.
+  If this becomes a problem for you, please open up an issue in the repository and
+  we'll find a way.
+  
 ## 0.5.0
 - Set canonical URL to metatags (unless set) before printing
 
