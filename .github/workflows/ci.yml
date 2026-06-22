@@ -8,8 +8,8 @@ on:
 
 env:
   MIX_ENV: test
-  OTP_VERSION: '27.1'
-  ELIXIR_VERSION: '1.17.3'
+  OTP_VERSION: '29.0.2'
+  ELIXIR_VERSION: '1.20.1'
 
 jobs:
   deps:
