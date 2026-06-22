@@ -39,7 +39,7 @@ def handle_params(_params, _url, socket) do
     |> Metatags.put("author", "Johan Tell")
     |> Metatags.put("description", "My perfect description")
 
-  {:ok, socket}
+  {:noreply, socket}
 end
 
 ```

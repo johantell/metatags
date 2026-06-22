@@ -29,12 +29,12 @@ defmodule Metatags.LiveView do
   end
 
   defp put_canonical(_session, url, socket) do
-    canoniocal_uri =
+    canonical_uri =
       url
       |> URI.parse()
       |> Map.put(:query, nil)
       |> URI.to_string()
 
-    {:cont, Metatags.put(socket, "canonical", canoniocal_uri)}
+    {:cont, Metatags.put(socket, "canonical", canonical_uri)}
   end
 end
