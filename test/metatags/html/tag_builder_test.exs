@@ -105,6 +105,45 @@ defmodule Metatags.HTML.TagBuilderTest do
       assert safe_to_string(result) ==
                ~s(<link href="favicon.png" rel="apple-touch-icon-precomposed">)
     end
+
+    test "escapes meta content so it cannot break out of the attribute" do
+      result =
+        TagBuilder.print_tag(
+          %{},
+          "description",
+          "legit\"><script>alert</script>",
+          %Config{}
+        )
+
+      assert safe_to_string(result) ==
+               ~s(<meta content="legit&quot;&gt;&lt;script&gt;alert&lt;/script&gt;" name="description">)
+    end
+
+    test "escapes title content so it cannot break out of the element" do
+      result =
+        TagBuilder.print_tag(
+          %{},
+          "title",
+          "</title><script>alert</script>",
+          %Config{sitename: nil}
+        )
+
+      assert safe_to_string(result) ==
+               "<title>&lt;/title&gt;&lt;script&gt;alert&lt;/script&gt;</title>"
+    end
+
+    test "escapes extra attribute values on `<link>` tags" do
+      result =
+        TagBuilder.print_tag(
+          %{},
+          "alternate",
+          {~s(https://example.com"><script>), [hreflang: ~s("evil)]},
+          %Config{}
+        )
+
+      assert safe_to_string(result) ==
+               ~s(<link href="https://example.com&quot;&gt;&lt;script&gt;" hreflang="&quot;evil" rel="alternate">)
+    end
   end
 
   defp safe_to_string(safe_string) do

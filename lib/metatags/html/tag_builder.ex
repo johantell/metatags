@@ -1,6 +1,8 @@
 defmodule Metatags.HTML.TagBuilder do
   @moduledoc false
 
+  alias Phoenix.HTML
+
   @type metatags_struct :: struct()
 
   @spec print_tag(metatags_struct(), String.t(), any(), Metatags.Config.t()) ::
@@ -71,13 +73,21 @@ defmodule Metatags.HTML.TagBuilder do
     formatted_attributes =
       attributes
       |> Enum.sort_by(fn {key, _value} -> attribute_prio(key) end, :desc)
-      |> Enum.map_join(" ", fn {key, value} -> ~s(#{key}="#{value}") end)
+      |> Enum.map_join(" ", fn {key, value} ->
+        ~s(#{key}="#{escape(value)}")
+      end)
 
     {:safe, ~s(<#{type} #{formatted_attributes}>)}
   end
 
   defp content_tag(type, do: content) do
-    {:safe, ~s(<#{type}>#{content}</#{type}>)}
+    {:safe, ~s(<#{type}>#{escape(content)}</#{type}>)}
+  end
+
+  defp escape(value) do
+    value
+    |> HTML.html_escape()
+    |> HTML.safe_to_string()
   end
 
   @order_index ~w[
