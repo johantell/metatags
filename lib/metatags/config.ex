@@ -6,7 +6,7 @@ defmodule Metatags.Config do
   @type t :: %__MODULE__{
           sitename: nil | String.t(),
           title_separator: String.t(),
-          metatags: %{}
+          metatags: %{optional(String.t()) => any()}
         }
 
   @spec build(Keyword.t()) :: __MODULE__.t()
