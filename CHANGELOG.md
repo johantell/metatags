@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1
+- **Security**: HTML-escape metatag values when rendering. Previously, values
+  containing `"`, `<` or `>` were interpolated into attributes and elements
+  without escaping, allowing HTML/script injection (XSS) when metatag content
+  was derived from user-controllable data. This was a regression introduced in
+  `0.4.0` when tag building stopped relying on `phoenix_html`.
+
 ## 0.6.0
 - Add support for `phoenix_live_view`
 

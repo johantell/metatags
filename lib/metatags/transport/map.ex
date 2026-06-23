@@ -7,10 +7,10 @@ defimpl Metatags.Transport, for: Map do
     metatags
   end
 
-  @spec put(%{}, String.t() | atom(), any()) :: no_return()
-  def put(map, _, _, _ \\ []) do
+  @spec put(map(), String.t() | atom(), any()) :: no_return()
+  def put(map, _, _) do
     raise("""
-    `Metatags.put/4` was used on a map
+    `Metatags.put/3` was used on a map
 
     #{inspect(map)}
 
@@ -18,7 +18,7 @@ defimpl Metatags.Transport, for: Map do
     """)
   end
 
-  @spec init(%{}, Keyword.t()) :: no_return()
+  @spec init(map(), Keyword.t()) :: no_return()
   def init(map, _options) do
     raise("""
     `Metatags.init/2` was used on a map
